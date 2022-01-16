@@ -1,0 +1,19 @@
+[build]
+target = "riscv32imc-esp-espidf"
+
+[target.riscv32imc-esp-espidf]
+linker = "ldproxy"
+
+# Future - necessary for the experimental "native build" of esp-idf-sys with ESP32C3
+# See also https://github.com/ivmarkov/embuild/issues/16
+rustflags = ["-C", "default-linker-libraries"]
+runner = "espflash /dev/ttyUSB0 --speed 115200 --bootloader resources/bootloader.bin --partition-table resources/partitions.csv --monitor"
+
+[unstable]
+build-std = ["std", "panic_abort"]
+build-std-features = ["panic_immediate_abort"]
+
+[env]
+# Enables the esp-idf-sys "native" build feature (`cargo build --features native`) to build against ESP-IDF upcoming (v4.4)
+ESP_IDF_VERSION = { value = "branch:release/v4.4" }
+ESP_IDF_SDKCONFIG_DEFAULTS = { value = "./sdkconfig.defaults", relative = true }
