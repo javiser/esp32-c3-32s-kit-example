@@ -8,7 +8,7 @@ A simple Rust example for the [ESP-C3-32S-Kit ESP32 WiFi+Bluetooth Development B
 - Preconfigured runner, just call `cargo run`
 
 **This example is still work in progress!** Current open tasks:
-- [ ] Example builds and turns on both the amber and white built-in leds and the RGB led. It also has some basic polling of the built-in button
+- [x] Example builds and turns on both the amber and white built-in leds and the RGB led. It also has some basic polling of the built-in button
 - [ ] Usage of built-in button to change the mode
 - [ ] Control of built-in RGB LED using PWM
 
