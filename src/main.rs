@@ -12,7 +12,7 @@ use esp_idf_hal::peripherals::Peripherals;
 use esp_idf_hal::ledc::{config::TimerConfig, Channel, Timer};
 use esp_idf_hal::prelude::*;
 
-use crate::button::{Button, ButtonEvent};
+use crate::button::{Button, ButtonEvent, WhenPressed};
 use crate::rgb::RainbowRGB;
 mod button;
 mod rgb;
@@ -48,7 +48,7 @@ fn main() -> Result<()> {
     let mut green_pwm = Channel::new(peripherals.ledc.channel1, &timer, green_led)?;
     let mut blue_pwm = Channel::new(peripherals.ledc.channel2, &timer, blue_led)?;
 
-    let mut button = Button::new(pins.gpio9.into_input()?);
+    let mut button = Button::new(pins.gpio9.into_input()?, WhenPressed::Low);
 
     // Variables needed to control the lights show
     let mut show_mode = ShowMode::AmberLight;
@@ -87,8 +87,8 @@ fn main() -> Result<()> {
             }
         }
         match button.poll() {
-            Some(ButtonEvent::NormalClick) => {
-                info!("Button click: change show mode");
+            Some(ButtonEvent::ShortPress) => {
+                info!("Button press: change show mode");
                 show_mode = match show_mode {
                     ShowMode::Off => ShowMode::AmberLight,
                     ShowMode::AmberLight => ShowMode::WhiteLight,
@@ -97,8 +97,8 @@ fn main() -> Result<()> {
                 }
             }
 
-            Some(ButtonEvent::LongClick) => {
-                info!("Long button click: turn off the LEDs");
+            Some(ButtonEvent::LongPress) => {
+                info!("Long button press: turn off the LEDs");
                 show_mode = ShowMode::Off;
             }
 

@@ -4,13 +4,14 @@ use std::time::Instant;
 pub struct Button<InputPin> {
     pin: InputPin,
     button_state: ButtonState,
-    click_time: Instant,
+    press_time: Instant,
+    when_pressed: WhenPressed,
+    long_press_thd_ms: u128,
 }
 
-// TODO Make normal / long click times configurable or a constant outside the code
 pub enum ButtonEvent {
-    NormalClick,
-    LongClick,
+    ShortPress,
+    LongPress,
 }
 
 enum ButtonState {
@@ -18,40 +19,59 @@ enum ButtonState {
     Pressed,
 }
 
+pub enum WhenPressed {
+    High,
+    Low,
+}
+
 impl<T: InputPin> Button<T> {
-    pub fn new(pin: T) -> Self {
+    pub fn new(pin: T, when_pressed: WhenPressed) -> Self {
         let button_state = ButtonState::Released;
-        let click_time = Instant::now();
+        let press_time = Instant::now();
+        let long_press_thd_ms = 500;
 
         Self {
             pin,
             button_state,
-            click_time,
+            press_time,
+            when_pressed,
+            long_press_thd_ms,
+        }
+    }
+
+    fn is_pressed(&mut self) -> bool {
+        match self.when_pressed {
+            WhenPressed::High => self.pin.is_high().unwrap(),
+            WhenPressed::Low => self.pin.is_low().unwrap(),
         }
     }
 
     pub fn poll(&mut self) -> Option<ButtonEvent> {
         match self.button_state {
             ButtonState::Released => {
-                if self.pin.is_low().unwrap() {
+                if self.is_pressed() {
                     self.button_state = ButtonState::Pressed;
-                    self.click_time = Instant::now();
+                    self.press_time = Instant::now();
                 }
             }
             ButtonState::Pressed => {
-                if !self.pin.is_low().unwrap() {
+                if !self.is_pressed() {
                     self.button_state = ButtonState::Released;
-                    let press_duration = Instant::now().duration_since(self.click_time).as_millis();
+                    let press_duration = Instant::now().duration_since(self.press_time).as_millis();
 
-                    if press_duration < 500 {
-                        return Some(ButtonEvent::NormalClick);
+                    if press_duration < self.long_press_thd_ms {
+                        return Some(ButtonEvent::ShortPress);
                     } else {
-                        return Some(ButtonEvent::LongClick);
+                        return Some(ButtonEvent::LongPress);
                     }
                 }
             }
         }
 
         None
+    }
+
+    pub fn set_long_press_thd_ms(&mut self, new_thd_ms:u128) {
+        self.long_press_thd_ms = new_thd_ms
     }
 }
