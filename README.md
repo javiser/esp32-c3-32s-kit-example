@@ -39,6 +39,7 @@ For this example I used the template in https://github.com/esp-rs/esp-idf-templa
 - https://github.com/ivmarkov/rust-esp32-std-demo
 
 You can check those for better instructions on how to use `espflash` and `espmonitor` and other details I don't cover here.
+I also would like to thanks the people in #esp-rs:matrix.org, especially [@sirhcel](https://github.com/sirhcel/) for his contribution to make the PWM signals for the RGB led work.
 
 ## Disclaimers
 - I am a beginner at Rust and ESP32 boards. Don't take my implementation as best practice! I don't really understand every single line of code of my example, which I have partly copied from the template and other examples.
