@@ -22,10 +22,10 @@ native = ["esp-idf-sys/native"]
 [dependencies]
 anyhow = {version = "1", features = ["backtrace"]}
 log = "0.4"
-esp-idf-sys = { version = "0.30", features = ["binstart", "native"] }
+esp-idf-sys = { version = "0.30", default-features = false, features = ["binstart", "pio"] }
 esp-idf-svc = "0.36"
-esp-idf-hal = "0.32"
-embedded-hal = "0.2"
+esp-idf-hal = { git = "https://github.com/sirhcel/esp-idf-hal", branch="ledc" }
+embedded-hal = "1.0.0-alpha.6"
 
 [build-dependencies]
 embuild = "0.28"

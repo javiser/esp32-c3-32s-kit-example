@@ -1,5 +1,5 @@
 # Rust on ESP-C3-32S-Kit board
-A simple Rust example for the [ESP-C3-32S-Kit ESP32 WiFi+Bluetooth Development Board](https://www.waveshare.com/esp-c3-32s-kit.htm) with ESP32C3 chip from Waveshare. This example uses the `std` implementation.
+A simple Rust example for the [ESP-C3-32S-Kit ESP32 WiFi+Bluetooth Development Board](https://www.waveshare.com/esp-c3-32s-kit.htm) with ESP32C3 chip from Ai-Thinker. This example uses the `std` implementation.
 
 **Highlights**:
 - No external periphery needed, just the board
@@ -9,11 +9,11 @@ A simple Rust example for the [ESP-C3-32S-Kit ESP32 WiFi+Bluetooth Development B
 
 **This example is still work in progress!** Current open tasks:
 - [x] Example builds and turns on both the amber and white built-in leds and the RGB led. It also has some basic polling of the built-in button
-- [ ] Usage of built-in button to change the mode
-- [ ] Control of built-in RGB LED using PWM
+- [ ] Usage of built-in button to change the mode (Working solution exists, not yet happy with it)
+- [ ] Control of built-in RGB LED using PWM (It works but dependencies are not yet 100% clean)
 
 ## Motivation and goals
-This is my simple example to learn Rust beginning with the board ESP-C3-32S-Kit I purchased from Waveshare. It uses the built-in periphery (LEDs and button) to demonstrate basic concepts. 
+This is my simple example to learn Rust beginning with the board Ai-Thinker ESP-C3-32S-Kit board. It uses the built-in periphery (LEDs and button) to demonstrate basic concepts to get started with. It is not my intention to cover all the functionality of the board, like WiFi, SPI communication, etc. For that I recommend you to look at the `esp32-std-demo` linked in [Credits and acknowledgment](#credits-and-acknowledgment).
 
 ## Preparation
 - Install the nightly toolchain of Rust: `rustup toolchain install nightly`
