@@ -81,9 +81,9 @@ fn main() -> Result<()> {
             ShowMode::RGBRainbow => {
                 white_led.set_low()?;
                 rgb.next_color();
-                red_pwm.set_duty(rgb.get_r())?;
-                green_pwm.set_duty(rgb.get_g())?;
-                blue_pwm.set_duty(rgb.get_b())?;
+                red_pwm.set_duty(rgb.get_r() as u32)?;
+                green_pwm.set_duty(rgb.get_g() as u32)?;
+                blue_pwm.set_duty(rgb.get_b() as u32)?;
             }
         }
         match button.poll() {
